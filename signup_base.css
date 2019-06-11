@@ -1,0 +1,82 @@
+* {
+	font-family: "English", serif;
+	font-size: 14pt;
+	text-align: justify;
+}
+
+.page {
+	width : 7.5in;
+	height : 10in;
+	background : white;
+	page-break-after : always;
+	padding: 0.5in;
+	margin: 0.25in;
+}
+
+.schedule {
+	width : 7.5in;
+	background : white;
+	page-break-after : always;
+	padding: 0.5in;
+	margin: 0.25in;
+}
+
+.messages {
+	width : 7.5in;
+	background : white;
+	page-break-after : always;
+	font-size: 10pt;
+	padding: 0.5in;
+	margin: 0.25in;
+}
+
+.right {
+	text-align: right;
+}
+
+.left {
+	text-align: left;
+}
+
+.center {
+	text-align: center;	
+}
+
+ul {
+	list-style-position: inside;
+	padding-left: 0px;
+}
+
+p {
+	margin-top: -2px;
+}
+
+h1 {
+	font-size: 28pt;
+	padding-bottom: -5em;
+}
+h2 {
+	font-size: 24pt;
+	line-height: 0.45em;
+}
+h3 {
+	font-size: 18pt;
+	line-height: 0.45em;
+}
+
+.ref {
+	font-size: 20pt;
+	padding-bottom: 0pt;
+	margin-bottom: 0em;
+}
+
+.playeritem {
+	font-size: 20pt;
+	padding-top: 12pt;
+	padding-bottom: 12pt;
+}
+.smallplayeritem {
+	font-size: 14pt;
+	padding-top: 12pt;
+	padding-bottom: 12pt;
+}

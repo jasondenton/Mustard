@@ -1,0 +1,81 @@
+<html lang="en-us">
+<head>
+	 <meta charset="UTF-8"> 
+	<title>Sign up Sheets for Event Name Goes Here </title>
+	<link rel="stylesheet" href="signup_base.css" media="all"/>
+	<link rel="stylesheet" href="signup_online.css" media="screen"/>
+	<link rel="stylesheet" href="signup_printable.css" media="print"/>
+</head>
+<body>
+
+<div class="messages">
+<h1>Warnings and Messages</h1>
+<ol>
+<li>A total of {{locations_needed}} simultaneously available tables will be needed for the eventable.</li>
+{% for m in messages %}
+<LI>{{m}}</LI>
+{% endfor %}
+</ol>
+</div>
+
+{% for day in schedule %}
+<div class="schedule">
+<h1 class="center"> {{day[0][0].start_time.strftime('%A, %B %d')}} </h1>
+{% for slot in day %}
+<h2> {{slot[0].start_time.strftime('Starting at %I:%M%p')}} </h2>
+{% for table in slot|table_descs %}
+{{table.event}} / levels {{table.min_level}} to {{table.max_level}}<br/>
+{% endfor %}
+{% endfor %}
+</div>
+
+{% for slot in day %}
+{% for table in slot %}
+
+<div class="page">
+{% if table.__class__.__name__ == 'TableAssignment' %}
+<h1 class="tablenum center">Table #{{table.location}}</h1>
+<h1 class="scenario center">{{table.event}}</h1>
+<h3 class="levelband center">For Levels {{table.pass_through['min_level']}} to 
+{{table.pass_through['max_level']}}</h3>
+<h2 class="time center"> {{table.start_time.strftime('%A, %D %I:%M%p')}} to  {{ table.end_time.strftime('%I:%M%p') }}</h2>
+</p>
+
+<!--h2 class="players center">Players</h2>-->
+<p class="ref">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-weight:bold;font-size:20pt">{{table.refname}}:</span> 
+{{table.gm.name}}</p>
+<ol class="playerlist">
+{% for i in range(0,table.seats) %}
+<li class="playeritem">
+{% if i < table.players|length %}
+{{table.players[i].name}}
+{% if table.players[i].print_team %} #{{table.players[i].print_team}}{% endif %}
+{% if table.players[i].role %} ({{table.players[i].role}}) {% endif %}
+{% else %}_________________________________________________{% endif %}</li>
+{% endfor %}
+</ol>
+
+{% elif table.__class__.__name__ == 'WaitList' %}
+
+<h1 class="tablenum center">Waitlist for</h1>
+<h1 class="scenario center">{{table.event}}</h1>
+<h2 class="time center"> {{table.start_time.strftime('%A, %D %I:%M%p')}} to  {{ table.end_time.strftime('%I:%M%p') }}</h2>
+</p>
+
+<ol class="playerlist">
+{% for p in table.players %}
+<li class="playeritem">
+{{p.name}}
+{% if p.print_team %} #{{p.print_team}}{% endif %}
+{% if p.role %} ({{p.role}}) {% endif %}</li>
+{% endfor %}
+</ol>
+{% endif %}
+</div>
+{% endfor %}
+{% endfor %}
+
+{% endfor %}
+</body>
+</html>
