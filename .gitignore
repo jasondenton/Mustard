@@ -1,6 +1,8 @@
 *.pyc
-*.json
 *.HTM
 *.jpeg
 *.png
+Signup*
+images/
+
 __pycache__

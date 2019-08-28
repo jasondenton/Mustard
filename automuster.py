@@ -32,19 +32,28 @@ class AutoMusterTemplateEngine(HTMLTemplateEngine):
 def main():
 	init_game_data('gamesystems.json')
 	fin_name = sys.argv[1]
-	fout_name = sys.argv[2]
 	pp = PrettyPrinter()
 	output = AutoMusterTemplateEngine()
 
 	with open(fin_name) as fin:
 		top = json.load(fin)
 	slots = top['slots']
-	tgroups = warhorn2mustard(slots)
-	data = seat_table_groups(tgroups)
+	slots_by_venue = {}
+	for slot in slots:
+		venue = slot['venue']
+		vlist = slots_by_venue.get(venue,list())
+		vlist.append(slot)
+		slots_by_venue[venue] = vlist
 
-	out = output.Render(data, 'signup')
-	with open(fout_name, "w") as fout:
-		fout.write(out)
+
+	for venue in slots_by_venue.keys():
+		tgroups = warhorn2mustard(slots_by_venue[venue])
+		data = seat_table_groups(tgroups)
+		data['venue'] = venue
+		fname = "Signup for %s.html" % venue
+		out = output.Render(data, 'signup')
+		with open(fname, "w") as fout:
+			fout.write(out)
 
 main()
 

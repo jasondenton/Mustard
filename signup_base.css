@@ -80,3 +80,13 @@ h3 {
 	padding-top: 12pt;
 	padding-bottom: 12pt;
 }
+
+img.tpic {
+    height: auto; 
+    width: auto; 
+    max-width: 500px; 
+    max-height: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

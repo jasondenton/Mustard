@@ -278,6 +278,7 @@ class TableSolver:
 				if not r[0]: continue
 				if r[1]: continue
 				use_role = r[0].lower()
+				if use_role not in self.table_group._game_system.roles: continue
 				accum = accum + self.table_group._game_system.roles[use_role] 
 				blocks += 1
 			if blocks: accum = accum / blocks

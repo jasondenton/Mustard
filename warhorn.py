@@ -6,8 +6,11 @@ from mustard import Player, TableGroup
 
 warhorn_campaign = {
 	"D&D Adventurers League" : "DCI",
-	"Starfinder Society" : "Pathfinder Societ",
-	"Pathfinder Society (1st edition)" : "Pathfinder Societ"
+	"Starfinder Society" : "Pathfinder Society",
+	"Pathfinder Society (1st edition)" : "Pathfinder Society",
+	"Pathfinder Society (2nd edition)" : "Pathfinder Society",
+	"Pathfinder Adventure Card Society" : "Pathfinder Society",
+	None : 'Far West'
 }
 
 TS_FMT = "%Y-%m-%dT%H:%M:%S%z"

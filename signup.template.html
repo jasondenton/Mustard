@@ -1,7 +1,7 @@
 <html lang="en-us">
 <head>
 	 <meta charset="UTF-8"> 
-	<title>Sign up Sheets for Event Name Goes Here </title>
+	<title>Sign up Sheets for {{venue}}</title>
 	<link rel="stylesheet" href="signup_base.css" media="all"/>
 	<link rel="stylesheet" href="signup_online.css" media="screen"/>
 	<link rel="stylesheet" href="signup_printable.css" media="print"/>
@@ -55,6 +55,8 @@
 {% else %}_________________________________________________{% endif %}</li>
 {% endfor %}
 </ol>
+
+<img src="images/table_{{"%02d"|format(table.location)}}.png" class="tpic"/>
 
 {% elif table.__class__.__name__ == 'WaitList' %}
 
