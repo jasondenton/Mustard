@@ -45,11 +45,13 @@ def main():
 		vlist.append(slot)
 		slots_by_venue[venue] = vlist
 
-
 	for venue in slots_by_venue.keys():
 		tgroups = warhorn2mustard(slots_by_venue[venue])
-		data = seat_table_groups(tgroups)
+		games = [x for x in tgroups if not x.is_admin_signup()]
+		admin = [x for x in tgroups if x.is_admin_signup()]
+		data = seat_table_groups(games)
 		data['venue'] = venue
+		data['admin'] = admin 
 		fname = "Signup for %s.html" % venue
 		out = output.Render(data, 'signup')
 		with open(fname, "w") as fout:

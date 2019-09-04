@@ -10,7 +10,7 @@ warhorn_campaign = {
 	"Pathfinder Society (1st edition)" : "Pathfinder Society",
 	"Pathfinder Society (2nd edition)" : "Pathfinder Society",
 	"Pathfinder Adventure Card Society" : "Pathfinder Society",
-	None : 'Far West'
+	None : None
 }
 
 TS_FMT = "%Y-%m-%dT%H:%M:%S%z"

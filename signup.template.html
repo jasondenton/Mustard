@@ -18,6 +18,20 @@
 </ol>
 </div>
 
+<div class="page">
+	{% for a in admin %}
+	{{a.event}} at {{a.start_time.strftime('%A, %D %I:%M%p')}} to {{ a.end_time.strftime('%I:%M%p') }}
+	<ol>
+		{% for p in a.gmlist %}
+		<li>{{p.name}}</li>
+		{% endfor %}
+		{% for p in a.players %}
+		<li>{{p.name}}</li>
+		{% endfor %}
+	</ol>
+	{% endfor %}
+</div>
+
 {% for day in schedule %}
 <div class="schedule">
 <h1 class="center"> {{day[0][0].start_time.strftime('%A, %B %d')}} </h1>
@@ -38,7 +52,7 @@
 <h1 class="scenario center">{{table.event}}</h1>
 <h3 class="levelband center">For Levels {{table.pass_through['min_level']}} to 
 {{table.pass_through['max_level']}}</h3>
-<h2 class="time center"> {{table.start_time.strftime('%A, %D %I:%M%p')}} to  {{ table.end_time.strftime('%I:%M%p') }}</h2>
+<h2 class="time center">{{table.start_time.strftime('%A, %D %I:%M%p')}} to {{ table.end_time.strftime('%I:%M%p') }}</h2>
 </p>
 
 <!--h2 class="players center">Players</h2>-->

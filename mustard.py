@@ -152,18 +152,22 @@ class TableGroup:
 		w.sub_id = sub_id
 		return w
 
+	def is_admin_signup(self):
+		if self.seats_per_table < self._game_system.min_players or self.seats_per_table > self._game_system.max_players:
+			return True
+		return False
+
 	def message_log(self):
 		msgs = []
 		end_seating = False
 		desc = self.event + ' on ' + self.start_time.strftime('%B %d at %I:%M%p ')
 
-		if self.seats_per_table < self._game_system.min_players or self.seats_per_table > self._game_system.max_players:
+		if self.is_admin_signup():
 			msgs.append((desc + 'does not seat a legal table for %s. It was assumed '
 			'to be an administrative signup and was removed from the schedule.' 
 			% self._game_system.name, 1))
 			end_seating = True
-
-		if not len(self.gmlist) and not len(self.players):
+		elif not len(self.gmlist) and not len(self.players):
 			msgs.append((desc + 'has no players and no %ss.' % self._game_system.refname,2))
 		elif not len(self.gmlist):
 			msgs.append((desc + 'has no %ss.' % self._game_system.refname,3))
@@ -402,7 +406,6 @@ class LocationManager:
 	def __init__(self, tables):
 		self.affinity_by_table = {}
 		self.affinity_by_gm = {}
-		self.in_use = []
 		self.idle = []
 		self.used = 0
 		self.tables = tables 
@@ -429,30 +432,30 @@ class LocationManager:
 		for h in heat:
 			table = self.tables[h[2]]
 			gm = table.gm 
-			location = self.table_affinity(gm)
+			if not gm:
+				rnd2.append(h)
+				continue
+			location = self.table_affinity(gm.name)
 			if location and location in self.idle:
 				self.idle.remove(location)
-				self.in_use.append(location)
 				table.location = location
 			else:
 				rnd2.append(h)
 		for h in rnd2:
 			table = self.tables[h[2]]
 			if self.idle:
-				to_rm = min(self.idle)
-				location = to_rm
-				self.idle.remove(to_rm)
+				location = min(self.idle)
+				self.idle.remove(location)
 			else:
 				self.used += 1
 				location = self.used
-			self.in_use.append(location)
 			table.location = location
-			self.update_affinity(table.gm, table.location)
+			if table.gm:
+				self.update_affinity(table.gm.name, table.location)
 
 	def release_group(self,heat):
 		for h in heat:
 			location = self.tables[h[2]].location
-			self.in_use.remove(location)
 			self.idle.append(location)
 
 	def set_locations(self):
@@ -505,7 +508,7 @@ def seat_table_groups(tgroups):
 		'waitlists' : waitlists,
 		'messages' : messages,
 		'schedule' : schedule,
-		'locations_needed' : lm.used
+		'locations_needed' : lm.used,
 	}
 
 
