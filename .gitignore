@@ -2,7 +2,9 @@
 *.HTM
 *.jpeg
 *.png
+*.zip
 Signup*
+*.warhorn.json
 images/
 
 __pycache__
