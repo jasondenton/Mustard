@@ -45,7 +45,7 @@ def init_game_data(gpath):
 	global GAME_SYSTEMS
 	if not gpath: gpath = 'gamesystems.json'
 	try:
-		with open('gamesystems.json', 'r') as fin:
+		with open('gamesystems.json', 'r', encoding='utf8') as fin:
 			gtmp = json.load(fin)
 			GAME_SYSTEMS.update(gtmp)
 	except:
@@ -293,12 +293,19 @@ class TableSolver:
 
 	def initial_seating(self):
 		'''Initial seating without regard to table balance. Might be worth improving.'''
-		units = len(self.seating)
+		units = len(self.seating) #assignable seating units. people or groups
 		tidx = 0
 		sitting = [0] * self.need_tables
+		self.assignable.sort(reverse=True,key=lambda x: len(x))
 		for i in range(0,units):
+			limit = 0
 			while (sitting[tidx] + len(self.assignable[i])) > self.seats_per_table:
 				tidx = (tidx + 1) % self.need_tables
+				limit += 1
+				if limit == self.need_tables+1:
+					self.assignable.append(self.assignable[i][1:])
+					self.assignable[i] = [self.assignable[i][0]]
+					self.seating.append(-1)
 			sitting[tidx] += len(self.assignable[i])
 			self.seating[i] = tidx
 			tidx = (tidx + 1) % self.need_tables
@@ -322,7 +329,7 @@ class TableSolver:
 		return roster
 			
 	def seating_groups(self):
-		'''Term a list of players into a list of assignable units. Assignable
+		'''Turn a list of players into a list of assignable units. Assignable
 		units are teams or individual players.'''
 		roster = group_by(self.players, 
 			grouping=lambda x:x.team.lower() if x.team else None,
@@ -378,6 +385,7 @@ class TableSolver:
 		max_pos = len(self.seating)
 		max_fails = max_pos ** 2
 		fails = 0
+		if min_pos >= max_pos: return
 		while fails < max_fails:
 			seat1 = randrange(min_pos,max_pos)
 			table1 = self.seating[seat1]

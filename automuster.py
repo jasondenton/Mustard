@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 
 import json
 import sys
@@ -35,7 +35,7 @@ def main():
 	pp = PrettyPrinter()
 	output = AutoMusterTemplateEngine()
 
-	with open(fin_name) as fin:
+	with open(fin_name, 'r', encoding='utf8') as fin:
 		top = json.load(fin)
 	slots = top['slots']
 	slots_by_venue = {}
